@@ -88,7 +88,7 @@ var gmapsDistanceTool = function(map, id) {
 			offset: '100%'
 		}]
 	});
-	// Keep track of weather or not infowindow has been opened
+	// Keep track of whether or not infowindow has been opened
 	var infowindowOpened = false;
 	// infowindow container
 	var infowindow = new google.maps.InfoWindow({ content: null });
