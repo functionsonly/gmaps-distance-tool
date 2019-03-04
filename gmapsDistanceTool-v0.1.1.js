@@ -196,7 +196,7 @@ var gmapsDistanceTool = function(map, id) {
 					case 'nm':
 						distance = distance/1852;	
 					default:
-						// Default units is meter
+						// Default unit is meter
 						distance = distance;
 				}
 
