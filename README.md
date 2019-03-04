@@ -30,5 +30,5 @@
 		Right-click on point to delete a previously set point.
 		
 	Updated:
-		2019-Feb-21 -- v0.1 -- Epoch
+		2019-Feb-21 -- v0.1.0 -- Epoch
 		2019-Mar-03 -- v0.1.1 -- Updated for Boostrap 4 only 
