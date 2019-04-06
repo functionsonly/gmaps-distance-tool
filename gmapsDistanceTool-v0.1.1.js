@@ -105,9 +105,11 @@ var gmapsDistanceTool = function(map, id) {
 			else {
 				var $ = typeof(jQuery) === 'undefined' ? $ : jQuery;
 				// Load template into div
+				// id is available when gmapsDistanceTool is called
 				$('#' + id).html(template);
 				let gdtDistanceDiv = document.getElementById('gdtDistanceDiv');
 				// Place template onto Google Maps
+				// map is available when gmapsDistanceTool is called
 				map.controls[google.maps.ControlPosition.TOP_CENTER].push(gdtDistanceDiv);
 			}
 		})();
@@ -237,7 +239,7 @@ var gmapsDistanceTool = function(map, id) {
 	// =======================
 	// Initiate Distance Class
 	// =======================
-	var d = new Distance(map, id);
+	var d = new Distance();
 
 	// ===============
 	// Event Listeners
