@@ -102,8 +102,6 @@ var gmapsDistanceTool = function(map, id, opt) {
 			offset: '100%'
 		}]
 	});
-	// Keep track of whether or not infowindow has been opened
-	var infowindowOpened = false;
 	// infowindow container
 	var infowindow = new google.maps.InfoWindow({ content: null });
 
@@ -160,15 +158,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 							    content += "Lat/Lon:<br>" + lat + ', ' + lon + "</div>"; 
 
 							infowindow.setPosition(event.latLng);
-							// For some reason, when a previous offset infowindow has been opened, can't seem to get it to reset
-							// Seems to be fixed for now, maybe a google maps update.
-							if(infowindowOpened) {
-								//infowindow.setOptions({pixelOffset: new google.maps.Size(-115,0), maxWidth: 150, disableAutoPan: true});
-								infowindow.setOptions({pixelOffset: new google.maps.Size(0,0), maxWidth: 150, disableAutoPan: true});
-							}
-							else {
-								infowindow.setOptions({pixelOffset: new google.maps.Size(0,0), maxWidth: 150, disableAutoPan: true});
-							}
+							infowindow.setOptions({pixelOffset: new google.maps.Size(0,0), maxWidth: 150, disableAutoPan: true});
 
 							infowindow.setContent(content);
 							infowindow.open(map);
