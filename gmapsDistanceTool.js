@@ -55,7 +55,8 @@
 			units:		Currently selected units
    =============================================================================== */
 var gmapsDistanceTool = function(map, id, opt) {
-	var top_offset = typeof opt.top_offset === undefined ? 10 : opt.top_offset;
+    opt = opt || {};
+    var top_offset = opt.top_offset !== undefined ? opt.top_offset : 10;
 	// =======================
 	// Set Internal Parameters 
 	// =======================
@@ -214,6 +215,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 						break;
 					case 'nm':
 						distance = distance/1852;	
+						break;
 					default:
 						// Default unit is meter
 						distance = distance;
@@ -292,7 +294,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 	});
 	// Delete distance marker (if clicked on a vertex), update distance
 	polyLine.addListener('rightclick', function(event) {
-		if(event.vertex != undefined) {
+		if(event.vertex !== undefined) {
 			polyLine.getPath().removeAt(event.vertex);
 		}
 
