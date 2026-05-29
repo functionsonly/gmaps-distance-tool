@@ -63,7 +63,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 	// =======================
 	// Basic template for drop down menu and real time update on total line distance.
 	// Placed at the top of the map, centered.
-	var template = '<div id="gdtDistanceDiv" class="input-group mb-3 bg-white invisible " style="min-width: 100px; max-width: 350px; margin: 10px; margin-top: ' + top_offset + 'px;">'+
+	var template = '<div id="' + id + '_gdtDistanceDiv" class="input-group mb-3 bg-white invisible " style="min-width: 100px; max-width: 350px; margin: 10px; margin-top: ' + top_offset + 'px;">'+
 			'<div class="input-group-prepend">'+
 				'<button type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Total Distance <span class="caret"></span></button>'+
 				'<div class="dropdown-menu">' +
@@ -73,9 +73,9 @@ var gmapsDistanceTool = function(map, id, opt) {
 					'<a class="dropdown-item gdtLineDisplay" data-display="clear" href="#">Clear Distance Markers</a>'+
 				'</div>'+
 			'</div>'+
-			'<input type="text" id="gdtLineDistance" class="form-control" aria-label="" style="min-width: 75px;">'+
+			'<input type="text" id="' + id + '_gdtLineDistance" class="form-control" aria-label="" style="min-width: 75px;">'+
 			'<div class="input-group-btn">'+
-				'<button type="button" id="gdtUnitLabel" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Meters <span class="caret"></span></button>'+
+				'<button type="button" id="' + id + '_gdtUnitLabel" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Meters <span class="caret"></span></button>'+
 				'<div class="dropdown-menu">'+
 					'<a class="dropdown-item gdtDistanceUnits" data-units="meter" href="#">Meters</a>'+
 					'<a class="dropdown-item gdtDistanceUnits" data-units="kilometer" href="#">Kilometers</a>'+
@@ -88,7 +88,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 				'<div class="input-group-prepend">' + 
 					'<span class="input-group-text">Origin Lat/Lon</span>' + 
 				'</div>' + 
-				'<input type="text" id="gdtLatLon" class="form-control" aria-label="" style="min-width: 100px;">'+
+				'<input type="text" id="' + id + '_gdtLatLon" class="form-control" aria-label="" style="min-width: 100px;">'+
 		'</div>';
 	// Polyline editor used to determine distance
 	var polyLine = new google.maps.Polyline({
@@ -102,8 +102,6 @@ var gmapsDistanceTool = function(map, id, opt) {
 			offset: '100%'
 		}]
 	});
-	// Keep track of whether or not infowindow has been opened
-	var infowindowOpened = false;
 	// infowindow container
 	var infowindow = new google.maps.InfoWindow({ content: null });
 
@@ -121,7 +119,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 				// Load template into div
 				// id is available when gmapsDistanceTool is called
 				$('#' + id).html(template);
-				let gdtDistanceDiv = document.getElementById('gdtDistanceDiv');
+				const gdtDistanceDiv = document.getElementById(id + '_gdtDistanceDiv');
 				// Place template onto Google Maps
 				// map is available when gmapsDistanceTool is called
 				map.controls[google.maps.ControlPosition.TOP_CENTER].push(gdtDistanceDiv);
@@ -138,6 +136,8 @@ var gmapsDistanceTool = function(map, id, opt) {
 				var segmentLinesArr = polyLine.getPath().getArray(); 
 				var updateDistanceUnits = this.updateDistanceUnits;
 
+                // NOTE: Creates a temporary polyline per segment to test proximity.
+                // Performance may degrade for routes with large numbers of points.
 				for(let i=1; i<segmentLinesArr.length; i++) {
 					// Temporarily create new line segment to see if what was clicked on was close enough to the distance line
 					var tempLine = new google.maps.Polyline({
@@ -162,13 +162,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 							infowindow.setPosition(event.latLng);
 							// For some reason, when a previous offset infowindow has been opened, can't seem to get it to reset
 							// Seems to be fixed for now, maybe a google maps update.
-							if(infowindowOpened) {
-								//infowindow.setOptions({pixelOffset: new google.maps.Size(-115,0), maxWidth: 150, disableAutoPan: true});
-								infowindow.setOptions({pixelOffset: new google.maps.Size(0,0), maxWidth: 150, disableAutoPan: true});
-							}
-							else {
-								infowindow.setOptions({pixelOffset: new google.maps.Size(0,0), maxWidth: 150, disableAutoPan: true});
-							}
+                            infowindow.setOptions({pixelOffset: new google.maps.Size(0,0), maxWidth: 150, disableAutoPan: true});
 
 							infowindow.setContent(content);
 							infowindow.open(map);
@@ -195,7 +189,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 						this.closeInfowindow();
 						polyLine.setMap(null);
 						polyLine.getPath().clear();
-						$('#gdtDistanceDiv').addClass('invisible');
+						$('#' + id + '_gdtDistanceDiv').addClass('invisible');
 						break;
 				}
 			},
@@ -246,8 +240,8 @@ var gmapsDistanceTool = function(map, id, opt) {
 				});
 
 				totalDistance = this.updateDistanceUnits(totalDistance);
-				$("#gdtLineDistance").val(totalDistance.toLocaleString());
-				$("#gdtLatLon").val(this.origin_lat + ', ' + this.origin_lon);
+				$('#' + id + '_gdtLineDistance').val(totalDistance.toLocaleString());
+				$('#' + id + '_gdtLatLon').val(this.origin_lat + ', ' + this.origin_lon);
 
 				this.distance = totalDistance;
 
@@ -293,7 +287,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 	});
 	// Delete distance marker (if clicked on a vertex), update distance
 	polyLine.addListener('rightclick', function(event) {
-		if(event.vertex != undefined) {
+		if(event.vertex !== undefined) {
 			polyLine.getPath().removeAt(event.vertex);
 		}
 
@@ -312,7 +306,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 	$('.gdtDistanceUnits').click(function() {
 		d.units = $(this).data('units');
 		var label = $(this).html() + ' <span class="caret"></span>'; 
-		$('#gdtUnitLabel').html(label);
+		$('#' + id + '_gdtUnitLabel').html(label);
 		d.updateDistance();
 	});
 	// Update distance marker display
