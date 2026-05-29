@@ -37,7 +37,7 @@
 		2020-Oct-19 -- v0.1.2 -- Updated div container instructions
 		2021-Aug-02 -- v0.1.3 -- Added top offset option for info window, fixed dropdown for Bootstrap 5 
 		2023-May-17 -- v0.1.4 -- Added lat/lon info for all segments 
-        2026-May-29 -- v0.1.5 -- Bug fixes, dropped IE11 support, fix opt null guard, fix nm missing break, strict equality cleanup
+		2026-May-29 -- v0.1.5 -- Bug fixes, dropped IE11 support, fix opt null guard, fix nm missing break, strict equality cleanup
 */
 
 /* ===============================================================================
@@ -56,8 +56,9 @@
 			units:		Currently selected units
    =============================================================================== */
 var gmapsDistanceTool = function(map, id, opt) {
-    opt = opt || {};
-    var top_offset = opt.top_offset !== undefined ? opt.top_offset : 10;
+	opt = opt || {};
+	var default_units = opt.default_units || 'meters';
+	var top_offset = opt.top_offset !== undefined ? opt.top_offset : 10;
 	// =======================
 	// Set Internal Parameters 
 	// =======================
@@ -75,7 +76,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 			'</div>'+
 			'<input type="text" id="gdtLineDistance" class="form-control" aria-label="" style="min-width: 75px;">'+
 			'<div class="input-group-btn">'+
-				'<button type="button" id="gdtUnitLabel" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Meters <span class="caret"></span></button>'+
+				'<button type="button" id="gdtUnitLabel" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + default_units.charAt(0).toUpperCase() + default_units.slice(1) + 's <span class="caret"></span></button>' + 
 				'<div class="dropdown-menu">'+
 					'<a class="dropdown-item gdtDistanceUnits" data-units="meter" href="#">Meters</a>'+
 					'<a class="dropdown-item gdtDistanceUnits" data-units="kilometer" href="#">Kilometers</a>'+
@@ -130,11 +131,10 @@ var gmapsDistanceTool = function(map, id, opt) {
 			origin_lat: '',
 			origin_lon: '',
 			distance: 0,
-			units: 'meter',
+			units: default_units,
 			// Showing clicked segment distance
 			showSegmentDistance: function(event) {
 				var segmentLinesArr = polyLine.getPath().getArray(); 
-				var updateDistanceUnits = this.updateDistanceUnits;
 
 				for(let i=1; i<segmentLinesArr.length; i++) {
 					// Temporarily create new line segment to see if what was clicked on was close enough to the distance line
@@ -317,3 +317,4 @@ var gmapsDistanceTool = function(map, id, opt) {
 	// =====================
 	return d;
 }
+
