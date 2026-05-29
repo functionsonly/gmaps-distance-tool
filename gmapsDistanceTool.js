@@ -86,7 +86,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 			'</div>'+
 			'<input type="text" id="gdtLineDistance" class="form-control" aria-label="" style="min-width: 75px;">'+
 			'<div class="input-group-btn">'+
-				'<button type="button" id="gdtUnitLabel" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + default_units.charAt(0).toUpperCase() + default_units.slice(1) + 's <span class="caret"></span></button>' + 
+                '<button type="button" id="gdtUnitLabel" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + (unitLabels[default_units] || 'Meters') + ' <span class="caret"></span></button>' +
 				'<div class="dropdown-menu">'+
 					'<a class="dropdown-item gdtDistanceUnits" data-units="meter" href="#">Meters</a>'+
 					'<a class="dropdown-item gdtDistanceUnits" data-units="kilometer" href="#">Kilometers</a>'+
