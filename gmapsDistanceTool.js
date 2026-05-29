@@ -37,7 +37,8 @@
 		2020-Oct-19 -- v0.1.2 -- Updated div container instructions
 		2021-Aug-02 -- v0.1.3 -- Added top offset option for info window, fixed dropdown for Bootstrap 5 
 		2023-May-17 -- v0.1.4 -- Added lat/lon info for all segments 
-		2026-May-29 -- v0.1.5 -- Bug fixes, dropped IE11 support, fix opt null guard, fix nm missing break, strict equality cleanup
+		2026-May-29 -- v0.1.5 -- Bug fixes, dropped IE11 support, fix opt null guard, fix nm missing break,
+                                 strict equality cleanup, added default units for opt
 */
 
 /* ===============================================================================
