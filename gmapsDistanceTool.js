@@ -66,6 +66,14 @@ var gmapsDistanceTool = function(map, id, opt) {
 	// =======================
 	// Basic template for drop down menu and real time update on total line distance.
 	// Placed at the top of the map, centered.
+    var unitLabels = {
+        meter: 'Meters',
+        kilometer: 'Kilometers',
+        feet: 'Feet',
+        yard: 'Yards',
+        mile: 'Miles',
+        nm: 'Nautical Miles'
+    };
 	var template = '<div id="gdtDistanceDiv" class="input-group mb-3 bg-white invisible " style="min-width: 100px; max-width: 350px; margin: 10px; margin-top: ' + top_offset + 'px;">'+
 			'<div class="input-group-prepend">'+
 				'<button type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Total Distance <span class="caret"></span></button>'+
@@ -303,12 +311,12 @@ var gmapsDistanceTool = function(map, id, opt) {
 		d.showSegmentDistance(event);
 	});
 	// Update units for measuring distance
-	$('.gdtDistanceUnits').click(function() {
-		d.units = $(this).data('units');
-		var label = $(this).html() + ' <span class="caret"></span>'; 
-		$('#gdtUnitLabel').html(label);
-		d.updateDistance();
-	});
+    $('.gdtDistanceUnits').click(function() {
+        d.units = $(this).data('units');
+        var label = (unitLabels[d.units] || 'Meters') + ' <span class="caret"></span>';
+        $('#gdtUnitLabel').html(label);
+        d.updateDistance();
+    });
 	// Update distance marker display
 	$('.gdtLineDisplay').click(function() {
 		d.updateDistanceDisplay($(this).data('display'));
