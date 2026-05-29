@@ -59,7 +59,7 @@
    =============================================================================== */
 var gmapsDistanceTool = function(map, id, opt) {
 	opt = opt || {};
-	var default_units = opt.default_units || 'meters';
+	var default_units = opt.default_units || 'meter';
 	var top_offset = opt.top_offset !== undefined ? opt.top_offset : 10;
 	// =======================
 	// Set Internal Parameters 
