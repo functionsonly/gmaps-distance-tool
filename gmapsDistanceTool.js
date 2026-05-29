@@ -1,6 +1,6 @@
 /*
 	gmapsDistanceTool.js for Google Maps -- Basic library for calculating distance(s) 
-		between clicked points (IE11 javascript compatible)
+		between clicked points 
 
 	Required dependencies:
 		Google Maps v3+
@@ -37,6 +37,7 @@
 		2020-Oct-19 -- v0.1.2 -- Updated div container instructions
 		2021-Aug-02 -- v0.1.3 -- Added top offset option for info window, fixed dropdown for Bootstrap 5 
 		2023-May-17 -- v0.1.4 -- Added lat/lon info for all segments 
+		2026-May-29 -- v0.1.5 -- Bug fixes, dropped IE11 support 
 */
 
 /* ===============================================================================
@@ -55,7 +56,8 @@
 			units:		Currently selected units
    =============================================================================== */
 var gmapsDistanceTool = function(map, id, opt) {
-	var top_offset = typeof opt.top_offset === undefined ? 10 : opt.top_offset;
+    opt = opt || {};
+    var top_offset = opt.top_offset !== undefined ? opt.top_offset : 10;
 	// =======================
 	// Set Internal Parameters 
 	// =======================
@@ -149,7 +151,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 
 					if(google.maps.geometry.poly.isLocationOnEdge(event.latLng, tempLine, .1)) {
 						// If clicked on at the end of a segment, show infowindow to that distance
-						if(segmentLinesArr[i] == event.latLng) {
+                        if(segmentLinesArr[i].equals(event.latLng)) {
 							var lat = event.latLng.lat().toFixed(6);
 							var lon = event.latLng.lng().toFixed(6);
 							var distance = google.maps.geometry.spherical.computeDistanceBetween(segmentLinesArr[i-1], segmentLinesArr[i]);
@@ -214,6 +216,7 @@ var gmapsDistanceTool = function(map, id, opt) {
 						break;
 					case 'nm':
 						distance = distance/1852;	
+						break;
 					default:
 						// Default unit is meter
 						distance = distance;
@@ -251,11 +254,9 @@ var gmapsDistanceTool = function(map, id, opt) {
 				this.closeInfowindow();
 			},
 			// Close infowindow
-			closeInfowindow: function() {
-				infowindow.close();
-				// Reset infowindow
-				infowindow = null
-				infowindow = new google.maps.InfoWindow({content: null});
+            closeInfowindow: function() {
+                infowindow.close();
+                infowindow.setContent(null);
 			}
 		}
 

@@ -1,5 +1,5 @@
 	gmapsDistanceTool.js for Google Maps -- Basic library for calculating distance(s) 
-		between clicked points (IE11 javascript compatible)
+		between clicked points 
 
 	Required dependencies:
 		Google Maps v3+
@@ -36,3 +36,4 @@
 		2020-Oct-19 -- v0.1.2 -- Updated div container instructions
 		2021-Aug-02 -- v0.1.3 -- Added top offset option for info window, fixed dropdown for Bootstrap 5 
 		2023-May-17 -- v0.1.4 -- Added lat/lon info for all segments 
+        2026-May-29 -- v0.1.5 -- Bug fixes, dropped IE11 support
