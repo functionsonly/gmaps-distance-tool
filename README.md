@@ -14,7 +14,8 @@
 		3.  Initiate distance tool after Google Maps object is available, 
 		    in this case 'map' is the Google Map object, ie:
 			var map = new google.maps.Map(document.getElementById('map'), {});
-			var distanceTool = new gmapsDistanceTool(map, 'distanceTool'); 
+            var distanceTool = new gmapsDistanceTool(map, 'distanceTool', { default_units: unit });
+            unit is a string: meter, kilometer, feet, yard, mile, nm 
 
 	HTML Element class/id's used by this library:
 		ID's:
